@@ -1,0 +1,39 @@
+package com.rita.cinema.domain;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
+
+@EnableAutoConfiguration
+@Entity
+@Data
+@NoArgsConstructor
+@Table(name = "seances")
+public final class Seance {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+    private double price;
+    private Date date;
+    private boolean isThreeD;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "film_id")
+    private Film film;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hall_id")
+    private Hall hall;
+    @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Ticket> tickets;
+
+    public Seance(double price, Date date, boolean isThreeD, Film film, Hall hall) {
+        this.price = price;
+        this.date = date;
+        this.isThreeD = isThreeD;
+        this.film = film;
+        this.hall = hall;
+    }
+}
