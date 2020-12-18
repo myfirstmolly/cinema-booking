@@ -27,7 +27,8 @@ public final class Hall {
     @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER)
     private List<Seance> seances;
 
-    public Hall(@NotBlank(message = "Name can't be empty") String name, int linesNum, int seatsNum, HallType hallType) {
+    public Hall(@NotBlank(message = "Name can't be empty") String name,
+                int linesNum, int seatsNum, HallType hallType) {
         this.name = name;
         this.linesNum = linesNum;
         this.seatsNum = seatsNum;

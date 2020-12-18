@@ -23,4 +23,11 @@ public final class Ticket {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seance_id")
     private Seance seance;
+
+    public Ticket(int line, int place, User user, Seance seance) {
+        this.line = line;
+        this.place = place;
+        this.user = user;
+        this.seance = seance;
+    }
 }

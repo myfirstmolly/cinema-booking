@@ -19,7 +19,7 @@ public final class Seance {
     private Long id;
     private double price;
     private Date date;
-    private boolean isThreeD;
+    private boolean is3d;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "film_id")
     private Film film;
@@ -29,10 +29,10 @@ public final class Seance {
     @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Ticket> tickets;
 
-    public Seance(double price, Date date, boolean isThreeD, Film film, Hall hall) {
+    public Seance(double price, Date date, boolean is3d, Film film, Hall hall) {
         this.price = price;
         this.date = date;
-        this.isThreeD = isThreeD;
+        this.is3d = is3d;
         this.film = film;
         this.hall = hall;
     }

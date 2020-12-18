@@ -23,7 +23,7 @@ public final class Film {
     @Enumerated(EnumType.STRING)
     private Rating rating;
     @OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
-    private List<Seance> seanceList;
+    private List<Seance> seances;
 
     public Film(String name, String director, Integer year, String genre, String summary, Rating rating) {
         this.name = name;
