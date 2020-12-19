@@ -1,5 +1,8 @@
 package com.rita.cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -25,7 +28,9 @@ public final class User implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
     private boolean active;
 
     @NotBlank(message = "Name cannot be empty")
@@ -36,11 +41,13 @@ public final class User implements UserDetails {
     private String email;
     private Date birthDate;
 
+    @JsonBackReference
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 
@@ -67,22 +74,26 @@ public final class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

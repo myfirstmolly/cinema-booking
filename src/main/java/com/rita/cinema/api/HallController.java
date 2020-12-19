@@ -11,23 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("hall")
 public class HallController {
     @Autowired
     private HallService hallService;
 
-    @GetMapping
+    @GetMapping("hall")
     public List<Hall> all(@AuthenticationPrincipal User user, Map<String, Object> model) {
         return hallService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("hall/{id}")
     public Hall byId(@PathVariable Long id, @AuthenticationPrincipal User user, Map<String, Object> model) {
         return hallService.findById(id);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("edit/hall")
     public Hall add(@RequestParam(value = "name") String name,
                     @RequestParam(value = "linesNum") int linesNum,
                     @RequestParam(value = "seatsNum") int seatsNum,
@@ -38,8 +37,8 @@ public class HallController {
         return hallService.add(hall);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("edit/hall/id}")
     public void delete(@PathVariable Long id, @AuthenticationPrincipal User user, Map<String, Object> model){
         hallService.deleteById(id);
     }

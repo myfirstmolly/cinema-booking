@@ -1,5 +1,6 @@
 package com.rita.cinema.service.impl;
 
+import com.rita.cinema.domain.Role;
 import com.rita.cinema.domain.User;
 import com.rita.cinema.repository.UserRepository;
 import com.rita.cinema.service.UserService;
@@ -64,5 +65,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public User addRole(Long id, Role role) {
+        User user = userRepository.findById(id).get();
+        List<Role> roles = user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User resetRole(Long id, Role role) {
+        User user = userRepository.findById(id).get();
+        List<Role> roles = user.getRoles();
+        roles.remove(role);
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 }

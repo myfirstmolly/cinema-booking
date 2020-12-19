@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -24,17 +25,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http
                 .authorizeRequests()
-                    .antMatchers("/", "/film", "/user", "/register").permitAll()
-                    .anyRequest()
-                    .authenticated()
+                .antMatchers("/film").permitAll()
+                .antMatchers("/seance").permitAll()
+                .antMatchers("/hall").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/edit/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and().csrf().disable().formLogin()
                 .and()
-                    .formLogin()
-                    .defaultSuccessUrl("/film")
-                    .permitAll()
+                .formLogin()
+                .defaultSuccessUrl("/film")
+                .permitAll()
                 .and()
-                    .logout()
-                    .permitAll();
+                .logout()
+                .permitAll();
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception{
+//        http.authorizeRequests()
+//                .anyRequest()
+//                .permitAll()
+//                .and().csrf().disable();
+//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

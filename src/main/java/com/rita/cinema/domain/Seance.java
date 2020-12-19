@@ -1,5 +1,7 @@
 package com.rita.cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,15 +21,22 @@ public final class Seance {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+
     private double price;
     private Date date;
     private boolean is3d;
+
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "film_id")
     private Film film;
+
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hall_id")
     private Hall hall;
+
+    @JsonBackReference
     @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ticket> tickets;
 

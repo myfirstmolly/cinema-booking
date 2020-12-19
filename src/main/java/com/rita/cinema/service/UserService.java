@@ -1,5 +1,6 @@
 package com.rita.cinema.service;
 
+import com.rita.cinema.domain.Role;
 import com.rita.cinema.domain.User;
 
 import java.util.Date;
@@ -12,5 +13,6 @@ public interface UserService {
     User findByUsername(String username);
     User updateName(Long id, String newName);
     void deleteById(Long id);
-
+    User addRole(Long id, Role role);
+    User resetRole(Long id, Role role);
 }

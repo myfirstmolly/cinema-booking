@@ -1,5 +1,6 @@
 package com.rita.cinema.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,13 +19,18 @@ public final class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(unique = true)
     @NotBlank(message = "Name can't be empty")
     private String name;
+
     private int linesNum;
     private int seatsNum;
+
     @Enumerated(EnumType.STRING)
     private HallType hallType;
+
+    @JsonBackReference
     @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER)
     private List<Seance> seances;
 
