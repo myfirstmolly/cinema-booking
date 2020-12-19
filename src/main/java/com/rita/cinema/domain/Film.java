@@ -4,6 +4,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableAutoConfiguration
@@ -32,5 +33,6 @@ public final class Film {
         this.genre = genre;
         this.summary = summary;
         this.rating = rating;
+        seances = new ArrayList<>();
     }
 }

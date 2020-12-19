@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @EnableAutoConfiguration
@@ -27,7 +29,7 @@ public final class Seance {
     @JoinColumn(name = "hall_id")
     private Hall hall;
     @OneToMany(mappedBy = "seance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Ticket> tickets;
+    private List<Ticket> tickets;
 
     public Seance(double price, Date date, boolean is3d, Film film, Hall hall) {
         this.price = price;
@@ -35,5 +37,6 @@ public final class Seance {
         this.is3d = is3d;
         this.film = film;
         this.hall = hall;
+        tickets = new ArrayList<>();
     }
 }

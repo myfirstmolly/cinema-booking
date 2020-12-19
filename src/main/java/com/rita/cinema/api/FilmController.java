@@ -19,42 +19,44 @@ public class FilmController {
     private FilmService filmService;
 
     @GetMapping
-    public List<Film> all(@AuthenticationPrincipal User user, Map<String, Object> model) {
+    public List<Film> all(Map<String, Object> model) {
         return filmService.findAll();
     }
 
     @GetMapping("{id}")
-    public Film byId(@PathVariable Long id, @AuthenticationPrincipal User user, Map<String, Object> model) {
+    public Film byId(@PathVariable Long id, Map<String, Object> model) {
         return filmService.findById(id);
     }
 
     @GetMapping("/find-by-name")
-    public List<Film> byName(@RequestParam String name, @AuthenticationPrincipal User user,
-                             Map<String, Object> model) {
+    public List<Film> byName(@RequestParam String name, Map<String, Object> model) {
         return filmService.findByName(name);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public Film add(@RequestParam(value = "name") String name,
                     @RequestParam(value = "director") String director,
                     @RequestParam(value = "year") Integer year,
                     @RequestParam(value = "genre") String genre,
                     @RequestParam(value = "summary", required = false) String summary,
-                    @RequestParam(value = "rating", required = false) Rating rating,
-                    @AuthenticationPrincipal User user,
-                    Map<String, Object> model) {
+                    @RequestParam(value = "rating", required = false) Rating rating
+                    ,@AuthenticationPrincipal User user,
+                    Map<String, Object> model
+    ) {
         Film film = new Film(name, director, year, genre, summary, rating);
         return filmService.add(film);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id, @AuthenticationPrincipal User user, Map<String, Object> model){
+    public void delete(@PathVariable Long id,
+                       @AuthenticationPrincipal User user,
+                       Map<String, Object> model){
         filmService.deleteById(id);
     }
 
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("{id}")
     public void delete(@PathVariable Long id,
                        @RequestParam(value = "summary", required = false) String summary,

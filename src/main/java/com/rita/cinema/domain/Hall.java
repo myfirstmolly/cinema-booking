@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableAutoConfiguration
@@ -33,5 +34,6 @@ public final class Hall {
         this.linesNum = linesNum;
         this.seatsNum = seatsNum;
         this.hallType = hallType;
+        seances = new ArrayList<>();
     }
 }
