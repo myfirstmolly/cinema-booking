@@ -25,6 +25,7 @@ public final class Hall {
     private String name;
 
     private int linesNum;
+
     private int seatsNum;
 
     @Enumerated(EnumType.STRING)

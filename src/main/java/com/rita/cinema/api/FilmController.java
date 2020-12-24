@@ -5,67 +5,94 @@ import com.rita.cinema.domain.Rating;
 import com.rita.cinema.domain.User;
 import com.rita.cinema.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-@RestController
+@Controller
 public class FilmController {
     @Autowired
     private FilmService filmService;
 
-    @GetMapping("film")
-    public List<Film> all(Map<String, Object> model) {
-        return filmService.findAll();
+    @GetMapping("films")
+    public String all(Model model, @AuthenticationPrincipal User user) {
+        boolean isAuthenticated = false;
+        boolean isAdmin = false;
+        if(user != null) {
+            isAuthenticated = true;
+            if (user.isAdmin())
+                isAdmin = true;
+        }
+        List<Film> films = filmService.findAll();
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("films", films);
+        return "films";
     }
 
     @GetMapping("film/{id}")
-    public Film byId(@PathVariable Long id, Map<String, Object> model) {
-        return filmService.findById(id);
+    public String byId(@PathVariable Long id, Model model, @AuthenticationPrincipal User user) {
+        boolean isAuthenticated = false;
+        boolean isAdmin = false;
+        if(user != null) {
+            isAuthenticated = true;
+            if (user.isAdmin())
+                isAdmin = true;
+        }
+        Film film = filmService.findById(id);
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("film", film);
+        return "film-info";
     }
 
     @GetMapping("film/find-by-name")
-    public List<Film> byName(@RequestParam String name, Map<String, Object> model) {
+    public List<Film> byName(@RequestParam String name, Model model, @AuthenticationPrincipal User user) {
+        List<Film> films = filmService.findByName(name);
+        model.addAttribute("films", films);
         return filmService.findByName(name);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("edit/film")
-    public Film add(@RequestParam(value = "name") String name,
+    @GetMapping("add/film")
+    public String addPage(Model model) {
+        model.addAttribute("isAuthenticated", true);
+        model.addAttribute("isAdmin", true);
+        return "add-film";
+    }
+
+    @PostMapping("add/film")
+    public String add(@RequestParam(value = "name") String name,
                     @RequestParam(value = "director") String director,
                     @RequestParam(value = "releaseDate") String releaseDate,
                     @RequestParam(value = "genre") String genre,
                     @RequestParam(value = "summary", required = false) String summary,
-                    @RequestParam(value = "file", required = false) String file,
-                    @RequestParam(value = "rating", required = false) Rating rating,
-                    @AuthenticationPrincipal User user,
-                    Map<String, Object> model
+                    @RequestParam(value = "rating", required = false) Rating rating
     ) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date parsed = formatter.parse(releaseDate);
-        return filmService.add(name, director, parsed, genre, summary, file, rating);
+        filmService.add(name, director, parsed, genre, summary, rating);
+        return "redirect:/films";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("edit/film/{id}")
-    public void delete(@PathVariable Long id,
-                       @AuthenticationPrincipal User user,
-                       Map<String, Object> model){
+    @GetMapping("delete/film/{id}")
+    public String delete(@PathVariable Long id,
+                       @AuthenticationPrincipal User user){
         filmService.deleteById(id);
+        return "redirect:/films";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/edit/film/{id}")
-    public void delete(@PathVariable Long id,
+    @GetMapping("edit/film/{id}")
+    public String edit(@PathVariable Long id,
                        @RequestParam(value = "summary", required = false) String summary,
                        @AuthenticationPrincipal User user,
-                       Map<String, Object> model){
+                       Model model){
         filmService.updateSummary(id, summary);
+        return "redirect:/films";
     }
 }

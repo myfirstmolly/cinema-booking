@@ -39,6 +39,7 @@ public final class User implements UserDetails {
     @Email(message = "Email is not correct")
     @NotBlank(message = "Email cannot be empty")
     private String email;
+
     private Date birthDate;
 
     @JsonBackReference
@@ -66,6 +67,15 @@ public final class User implements UserDetails {
         this.email = email;
         this.birthDate = birthDate;
         roles.add(Role.USER);
+    }
+
+    public boolean isAdmin() {
+        for (Role r :
+                roles) {
+            if (r.equals(Role.ADMIN))
+                return true;
+        }
+        return false;
     }
 
     @Override

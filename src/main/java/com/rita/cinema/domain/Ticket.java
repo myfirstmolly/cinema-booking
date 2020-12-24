@@ -18,6 +18,7 @@ public final class Ticket {
     private Long id;
 
     private int line;
+
     private int place;
 
     @JsonManagedReference

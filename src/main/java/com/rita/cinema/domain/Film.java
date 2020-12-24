@@ -20,11 +20,14 @@ public final class Film {
     private Long id;
 
     private String name;
+
     private String director;
+
     private Date releaseDate;
+
     private String genre;
+
     private String summary;
-    private String fileName;
 
     @Enumerated(EnumType.STRING)
     private Rating rating;
@@ -34,13 +37,13 @@ public final class Film {
     private List<Seance> seances;
 
     public Film(String name, String director, Date releaseDate, String genre, String summary,
-                String fileName, Rating rating) {
+                Rating rating) {
         this.name = name;
         this.director = director;
         this.releaseDate = releaseDate;
         this.genre = genre;
         this.summary = summary;
-        this.fileName = fileName;
         this.rating = rating;
+        this.seances = new ArrayList<>();
     }
 }

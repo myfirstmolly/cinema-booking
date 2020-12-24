@@ -1,14 +1,16 @@
 package com.rita.cinema.api;
 
+import com.rita.cinema.domain.User;
 import com.rita.cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 @Controller
 @RequestMapping
@@ -16,8 +18,15 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @GetMapping
+    public String login() {
+        return "redirect:/films";
+    }
+
     @GetMapping("register")
-    public String registration() {
+    public String registration(Model model) {
+        model.addAttribute("isAuthenticated", false);
+        model.addAttribute("isAdmin", false);
         return "registration";
     }
 
@@ -26,8 +35,7 @@ public class AuthController {
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "name") String name,
                            @RequestParam(value = "email") String email,
-                           @RequestParam(value = "birthDate") String birthDate,
-                           Map<String, Object> model) throws ParseException {
+                           @RequestParam(value = "birthDate") String birthDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date parsed = formatter.parse(birthDate);
         userService.add(username, password, name, email, parsed);

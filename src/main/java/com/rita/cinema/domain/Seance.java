@@ -23,7 +23,9 @@ public final class Seance {
     private Long id;
 
     private double price;
+
     private Date date;
+
     private boolean is3d;
 
     @JsonManagedReference

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Films</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navbar :: navigation(Films)}"/>
+
+    <h1>Films</h1>
+    <span th:if="${films.size() == 0}"> Movie List is empty
+        <td th:if="${isAdmin}">
+            <a class="btn btn-secondary" th:href="@{'/edit/film/'}">Add</a>
+        </td>
+    </span>
+    <table th:if="${films.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Name</td>
+            <td>Genre</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="film : ${films}">
+            <td th:text="${film.name}"/>
+            <td th:text="${film.genre}"/>
+            <td><a class="btn btn-secondary" th:href="@{'/film/' + ${film.id}}">More</a></td>
+            <td th:if="${isAdmin}">
+                <a class="btn btn-danger" th:href="@{'/delete/film/' + ${film.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <td th:if="${isAdmin}">
+        <a class="btn btn-primary" th:href="@{'/add/film/'}">Add</a>
+    </td>
+</div>
+</body>
+</html>

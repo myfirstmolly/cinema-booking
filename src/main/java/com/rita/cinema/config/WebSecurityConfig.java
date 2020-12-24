@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -23,31 +22,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http
-                .authorizeRequests()
-                .antMatchers("/film").permitAll()
-                .antMatchers("/seance").permitAll()
-                .antMatchers("/hall").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/register").permitAll()
-                .antMatchers("/edit/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .and()
-                .formLogin()
-                .defaultSuccessUrl("/film")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+        http.authorizeRequests()
+                .antMatchers("/edit/**").hasAuthority("ADMIN")
+                .antMatchers("/delete/**").hasAuthority("ADMIN")
+                .antMatchers("/add/**").hasAuthority("ADMIN")
+                .antMatchers("/ticket/**").authenticated()
+                .anyRequest().permitAll()
+                .and().formLogin().permitAll()
+                .and().logout().logoutSuccessUrl("/films")
+                .and().csrf().disable();
     }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception{
-//        http.authorizeRequests()
-//                .anyRequest()
-//                .permitAll()
-//                .and().csrf().disable();
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

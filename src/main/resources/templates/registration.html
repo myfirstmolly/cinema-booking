@@ -2,42 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cinema</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <title>Register</title>
 </head>
 <body>
-<form action="/register" method="post">
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Username:</label>
-        <div class="col-sm-6">
-            <input type="text" name="username" placeholder="user" />
+<div class="container">
+    <div th:replace="~{navbar :: navigation(Register)}"/>
+    <h1 style="padding-top: 20px">Your credentials:</h1>
+
+    <form action="/register" method="post" style="padding-top: 20px">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Username:</label>
+            <div class="col-sm-6">
+                <input type="text" name="username" />
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Password:</label>
-        <div class="col-sm-6">
-            <input type="password" name="password" placeholder="mysupersecurepassword" />
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-6">
+                <input type="password" name="password" />
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Name:</label>
-        <div class="col-sm-6">
-            <input type="text" name="name" placeholder="John Doe" />
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Name:</label>
+            <div class="col-sm-6">
+                <input type="text" name="name" />
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Email Address:</label>
-        <div class="col-sm-6">
-            <input type="email" name="email" placeholder="something@something" />
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Email:</label>
+            <div class="col-sm-6">
+                <input type="email" name="email" />
+            </div>
         </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label">Birth date:</label>
-        <div class="col-sm-6">
-            <input type="text" name="birthDate" placeholder="dd.mm.yyyy" />
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Birth date:</label>
+            <div class="col-sm-6">
+                <input type="text" name="birthDate" placeholder="dd.mm.yyyy" />
+            </div>
         </div>
-    </div>
-    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-    <button class="btn btn-primary" type="submit">Sign Up</button>
-</form>
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+    </form>
+</div>
 </body>
 </html>
