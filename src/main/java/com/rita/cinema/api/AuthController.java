@@ -38,7 +38,10 @@ public class AuthController {
                            @RequestParam(value = "birthDate") String birthDate) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         Date parsed = formatter.parse(birthDate);
-        userService.add(username, password, name, email, parsed);
-        return "redirect:/login";
+        if(userService.isUnique(username)) {
+            userService.add(username, password, name, email, parsed);
+            return "redirect:/login";
+        }
+        return "redirect:/register";
     }
 }

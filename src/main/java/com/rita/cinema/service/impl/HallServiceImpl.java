@@ -13,6 +13,7 @@ import java.util.List;
 public class HallServiceImpl implements HallService {
     @Autowired
     private HallRepository hallRepository;
+
     @Autowired
     private SeanceService seanceService;
 

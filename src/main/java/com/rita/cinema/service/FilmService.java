@@ -9,9 +9,14 @@ import java.util.List;
 public interface FilmService {
     Film add(String name, String director, Date releaseDate, String genre, String summary,
              Rating rating);
+
     List<Film> findAll();
+
     Film findById(Long id);
+
     List<Film> findByName(String name);
+
     void deleteById(Long id);
+
     Film updateSummary(Long id, String newSummary);
 }

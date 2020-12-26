@@ -10,14 +10,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @EnableAutoConfiguration
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "seances")
-public final class Seance {
+public final class Seance implements Comparable<Seance> {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -49,5 +48,10 @@ public final class Seance {
         this.film = film;
         this.hall = hall;
         tickets = new ArrayList<>();
+    }
+
+    @Override
+    public int compareTo(Seance o) {
+        return this.getDate().compareTo(o.getDate());
     }
 }

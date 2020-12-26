@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My tickets</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{navbar :: navigation(Tickets)}"/>
+
+    <h1 style="padding-top: 20px">My tickets</h1>
+    <span th:if="${tickets.size() == 0}"> Tickets List is empty</span>
+    <table th:if="${tickets.size() > 0}" class="table">
+        <thead class="thead-dark">
+        <tr>
+            <td scope="col">Film</td>
+            <td scope="col">Date</td>
+            <td scope="col">Hall</td>
+            <td scope="col">Line</td>
+            <td scope="col">Place</td>
+            <td scope="col">Return</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticket : ${tickets}">
+            <td th:text="${ticket.seance.film.name}"/>
+            <td th:text="${ticket.seance.date}"/>
+            <td th:text="${ticket.seance.hall.name}"/>
+            <td th:text="${ticket.line}"/>
+            <td th:text="${ticket.place}"/>
+            <td>
+                <a class="btn btn-danger" th:href="@{'/return/ticket/' + ${ticket.id}}">Return</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <td th:if="${isAdmin}">
+        <a class="btn btn-primary" th:href="@{'/add/hall/'}">Add</a>
+    </td>
+</div>
+
+</body>
+</html>

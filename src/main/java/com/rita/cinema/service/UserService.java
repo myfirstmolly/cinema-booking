@@ -8,11 +8,20 @@ import java.util.List;
 
 public interface UserService {
     List<User> findAll();
+
     User add(User user);
+
     User add(String username, String password, String name, String email, Date birthDate);
+
     User findByUsername(String username);
+
     User updateName(Long id, String newName);
+
     void deleteById(Long id);
+
     User addRole(Long id, Role role);
+
     User resetRole(Long id, Role role);
+
+    boolean isUnique(String username);
 }

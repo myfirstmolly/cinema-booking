@@ -28,6 +28,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        ticketRepository.deleteById(id);
+    }
+
+    @Override
     public Ticket findByLineAndPlaceAndSeance(int line, int place, Seance seance) {
         return ticketRepository.findByLineAndPlaceAndSeance(line, place, seance);
     }

@@ -18,6 +18,7 @@ import java.util.List;
 public class UserServiceImpl implements UserDetailsService, UserService {
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -83,5 +84,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         roles.remove(role);
         user.setRoles(roles);
         return userRepository.save(user);
+    }
+
+    @Override
+    public boolean isUnique(String username) {
+        return userRepository.findByUsername(username) == null;
     }
 }

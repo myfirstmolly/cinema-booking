@@ -17,28 +17,22 @@
 <div class="container">
     <div th:replace="~{navbar :: navigation(Films)}"/>
 
-    <h1>Films</h1>
-    <span th:if="${films.size() == 0}"> Movie List is empty
-        <td th:if="${isAdmin}">
-            <a class="btn btn-secondary" th:href="@{'/edit/film/'}">Add</a>
-        </td>
-    </span>
-    <table th:if="${films.size() > 0}" class="table table-hover">
+    <h1 style="padding-top: 20px">Films</h1>
+    <span th:if="${films.size() == 0}"> Movie List is empty</span>
+    <table th:if="${films.size() > 0}" class="table">
         <thead class="thead-dark">
         <tr>
-            <td>Name</td>
-            <td>Genre</td>
-            <td></td>
-            <td></td>
+            <td scope="col">Name</td>
+            <td scope="col">Genre</td>
+            <td scope="col">Details</td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="film : ${films}">
             <td th:text="${film.name}"/>
             <td th:text="${film.genre}"/>
-            <td><a class="btn btn-secondary" th:href="@{'/film/' + ${film.id}}">More</a></td>
-            <td th:if="${isAdmin}">
-                <a class="btn btn-danger" th:href="@{'/delete/film/' + ${film.id}}">Delete</a>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/film/' + ${film.id}}">Details</a>
             </td>
         </tr>
         </tbody>

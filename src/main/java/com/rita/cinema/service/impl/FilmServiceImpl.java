@@ -6,9 +6,7 @@ import com.rita.cinema.repository.FilmRepository;
 import com.rita.cinema.service.FilmService;
 import com.rita.cinema.service.SeanceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +15,7 @@ import java.util.List;
 public class FilmServiceImpl implements FilmService {
     @Autowired
     private FilmRepository filmRepository;
+
     @Autowired
     private SeanceService seanceService;
 

@@ -16,5 +16,6 @@ public interface SeanceRepository extends JpaRepository<Seance, Long> {
     void deleteAllByHall(Hall hall);
     void deleteAllByFilm(Film film);
     List<Seance> findAllByDate(Date date);
+    List<Seance> findAllByDateBetween(Date start, Date end);
     List<Seance> findAllByFilm(Film film);
 }

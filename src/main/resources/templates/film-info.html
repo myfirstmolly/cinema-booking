@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>Application</title>
+    <title>Film Info</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -15,8 +15,43 @@
 <body>
 
 <div class="container">
-    <h1>Details</h1>
-    <span th:text="${film.name + ' ' + selectedProduct.title + ' ' + selectedProduct.price}" />
+    <div th:replace="~{navbar :: navigation(Films)}"/>
+    <h1 th:text="${film.name}" style="padding-top: 20px"></h1>
+    <h5 th:text="${film.director}"></h5>
+    <div style="margin-top: 1ch">
+        <span th:text="${film.genre}"></span>
+    </div>
+    <div th:if="${film.summary != null}">
+        <span th:text="${film.summary}"></span>
+    </div>
+    <div style="margin-top: 1ch" th:if="${film.rating != null}">
+        <span>Rating:</span>
+        <span th:text="${film.rating}"></span>
+    </div>
+    <div>
+        <span>Release date:</span>
+        <span th:text="${film.releaseDate}"></span>
+    </div>
+    <div style="margin-top: 1ch">
+        <td>
+            <a class="btn btn-primary" th:href="@{'/seance/film/' + ${film.id}}">Seances</a>
+        </td>
+    </div>
+    <div style="margin-top: 1ch">
+        <td th:if="${isAdmin}">
+            <a class="btn btn-primary" th:href="@{'/edit/film/'}">Edit</a>
+        </td>
+    </div>
+    <div style="margin-top: 1ch">
+        <td th:if="${isAdmin}">
+            <a class="btn btn-primary" th:href="@{'/add/seance/' + ${film.id}}">Add seances</a>
+        </td>
+    </div>
+    <div style="margin-top: 1ch">
+        <td th:if="${isAdmin}">
+            <a class="btn btn-danger" th:href="@{'/delete/film/' + ${film.id}}">Delete</a>
+        </td>
+    </div>
 </div>
 </body>
 </html>
