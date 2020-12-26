@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
-    Ticket findByLineAndPlaceAndSeance(int line, int place, Seance seance);
     List<Ticket> findAllByUser(User user);
+    List<Ticket> findAllBySeanceAndUser(Seance seance, User user);
 }

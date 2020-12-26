@@ -39,19 +39,14 @@ public class SeanceController {
         return "seances";
     }
 
-    @GetMapping("seance/{id}")
-    public String byId(@PathVariable Long id,
-                       @AuthenticationPrincipal User user,
-                       Model model) {
-        checkUser(user, model);
-        return "seance-info";
-    }
-
     @GetMapping("seance/film/{film}")
-    public List<Seance> findByFilm(@PathVariable Film film,
+    public String findByFilm(@PathVariable Film film,
                                      @AuthenticationPrincipal User user,
                                      Model model) {
-        return seanceService.findByFilm(film);
+        checkUser(user, model);
+        List<Seance> seances = seanceService.findByFilm(film);
+        model.addAttribute("seances", seances);
+        return "seances";
     }
 
     @GetMapping("add/seance/{film}")
@@ -68,12 +63,10 @@ public class SeanceController {
     public String add(@PathVariable(value = "film") Film film,
                       @RequestParam(value = "price") double price,
                       @RequestParam(value = "date") String date,
-                      @RequestParam(value = "is3d") boolean is3d,
+                      @RequestParam(value = "is3d", required = false) boolean is3d,
                       @RequestParam(value = "hall") Hall hall) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm a");
         Date parsed = formatter.parse(date);
-        System.out.println(date);
-        System.out.println(parsed);
         Seance seance = new Seance(price, parsed, is3d, film, hall);
         seanceService.add(seance);
         return "redirect:/seances";

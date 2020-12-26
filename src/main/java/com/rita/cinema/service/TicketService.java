@@ -7,12 +7,14 @@ import com.rita.cinema.domain.User;
 import java.util.List;
 
 public interface TicketService {
-    Ticket sell(User user, Seance seance, int line, int place);
+    Ticket sell(User user, Ticket ticket);
 
     List<Ticket> findByUser(User user);
 
     void deleteById(Long id);
 
-    Ticket findByLineAndPlaceAndSeance(int line, int place, Seance seance);
+    void returnTicket(Long id);
+
+    List<Ticket> findBySeance(Seance seance);
 }
 

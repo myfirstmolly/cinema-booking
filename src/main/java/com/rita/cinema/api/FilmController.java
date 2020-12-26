@@ -80,19 +80,11 @@ public class FilmController {
         return "redirect:/films";
     }
 
-    @GetMapping("delete/film/{id}")
-    public String delete(@PathVariable Long id,
+    @GetMapping("delete/film/{film}")
+    public String delete(@PathVariable Film film,
                        @AuthenticationPrincipal User user){
-        filmService.deleteById(id);
-        return "redirect:/films";
-    }
-
-    @GetMapping("edit/film/{id}")
-    public String edit(@PathVariable Long id,
-                       @RequestParam(value = "summary", required = false) String summary,
-                       @AuthenticationPrincipal User user,
-                       Model model){
-        filmService.updateSummary(id, summary);
+        if(film.getSeances().isEmpty())
+            filmService.deleteById(film.getId());
         return "redirect:/films";
     }
 }

@@ -48,6 +48,11 @@ public final class Seance implements Comparable<Seance> {
         this.film = film;
         this.hall = hall;
         tickets = new ArrayList<>();
+        for (int i = 1; i <= hall.getLinesNum(); i++) {
+            for (int j = 1; j <= hall.getSeatsNum(); j++) {
+                tickets.add(new Ticket(i, j, null, this));
+            }
+        }
     }
 
     @Override

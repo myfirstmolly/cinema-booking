@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{navbar :: navigation(Users)}"/>
+
+    <span style="margin-top: 10px" th:if="${users.size() == 0}">User list is empty</span>
+    <table style="margin-top: 3ch" th:if="${users.size() > 0}" class="table">
+        <thead class="thead-dark">
+        <tr>
+            <td scope="col">Username</td>
+            <td scope="col">Name</td>
+            <td scope="col">Email</td>
+            <td scope="col">Birth Date</td>
+            <td scope="col">Edit authorities</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.birthDate}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/users/' + ${user.id}}">Change</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

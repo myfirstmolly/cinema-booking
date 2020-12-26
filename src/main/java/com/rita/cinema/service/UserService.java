@@ -13,15 +13,9 @@ public interface UserService {
 
     User add(String username, String password, String name, String email, Date birthDate);
 
-    User findByUsername(String username);
-
-    User updateName(Long id, String newName);
-
     void deleteById(Long id);
 
-    User addRole(Long id, Role role);
-
-    User resetRole(Long id, Role role);
+    User changeRoles(Long id, List<Role> roles);
 
     boolean isUnique(String username);
 }

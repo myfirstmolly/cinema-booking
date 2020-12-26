@@ -34,8 +34,6 @@ public class HallServiceImpl implements HallService {
 
     @Override
     public void deleteById(Long id) {
-        Hall hall = hallRepository.findById(id).get();
-        seanceService.deleteAllByHall(hall);
         hallRepository.deleteById(id);
     }
 }

@@ -16,8 +16,9 @@ public class TicketServiceImpl implements TicketService {
     private TicketRepository ticketRepository;
 
     @Override
-    public Ticket sell(User user, Seance seance, int line, int place) {
-        Ticket ticket = new Ticket(line, place, user, seance);
+    public Ticket sell(User user, Ticket ticket) {
+        if(ticket.getUser() == null)
+            ticket.setUser(user);
         ticketRepository.save(ticket);
         return ticket;
     }
@@ -33,7 +34,14 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Ticket findByLineAndPlaceAndSeance(int line, int place, Seance seance) {
-        return ticketRepository.findByLineAndPlaceAndSeance(line, place, seance);
+    public void returnTicket(Long id) {
+        Ticket ticket = ticketRepository.findById(id).get();
+        ticket.setUser(null);
+        ticketRepository.save(ticket);
+    }
+
+    @Override
+    public List<Ticket> findBySeance(Seance seance) {
+        return ticketRepository.findAllBySeanceAndUser(seance, null);
     }
 }

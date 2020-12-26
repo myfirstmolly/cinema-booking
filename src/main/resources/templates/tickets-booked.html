@@ -9,23 +9,29 @@
 </head>
 <body>
 <div class="container">
-    <div th:replace="~{navbar :: navigation(Seances)}"/>
+    <div th:replace="~{navbar :: navigation(Tickets)}"/>
 
-    <span style="margin-top: 10px" th:if="${tickets.size() == 0}"> All tickets are booked already</span>
+    <span style="margin-top: 10px" th:if="${tickets.size() == 0}"> Ticket list is empty</span>
     <table style="margin-top: 3ch" th:if="${tickets.size() > 0}" class="table">
         <thead class="thead-dark">
         <tr>
+            <td scope="col">Film</td>
+            <td scope="col">Hall</td>
+            <td scope="col">Date</td>
             <td scope="col">Line</td>
             <td scope="col">Place</td>
-            <td scope="col">Buy</td>
+            <td scope="col">Return</td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="ticket : ${tickets}">
+            <td th:text="${ticket.seance.film.name}"></td>
+            <td th:text="${ticket.seance.hall.name}"></td>
+            <td th:text="${ticket.seance.date}"></td>
             <td th:text="${ticket.line}"></td>
             <td th:text="${ticket.place}"></td>
-            <td th:if="${isAuthenticated}">
-                <a class="btn btn-primary" th:href="@{'/ticket/' + ${ticket.id}}" th:method="POST">Book</a>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/ticket/return/' + ${ticket.id}}">Return</a>
             </td>
         </tr>
         </tbody>

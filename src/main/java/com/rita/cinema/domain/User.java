@@ -69,13 +69,12 @@ public final class User implements UserDetails {
         roles.add(Role.USER);
     }
 
+    public boolean isUser() {
+        return roles.contains(Role.USER);
+    }
+
     public boolean isAdmin() {
-        for (Role r :
-                roles) {
-            if (r.equals(Role.ADMIN))
-                return true;
-        }
-        return false;
+        return roles.contains(Role.ADMIN);
     }
 
     @Override

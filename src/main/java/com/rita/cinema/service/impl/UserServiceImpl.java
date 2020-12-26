@@ -48,40 +48,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
-    }
-
-    @Override
-    public User updateName(Long id, String newName) {
-        User user = userRepository.findById(id).get();
-        user.setName(newName);
-        return userRepository.save(user);
-    }
-
-    @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public User addRole(Long id, Role role) {
+    public User changeRoles(Long id, List<Role> roles) {
         User user = userRepository.findById(id).get();
-        List<Role> roles = user.getRoles();
-        roles.add(role);
-        user.setRoles(roles);
-        return userRepository.save(user);
-    }
-
-    @Override
-    public User resetRole(Long id, Role role) {
-        User user = userRepository.findById(id).get();
-        List<Role> roles = user.getRoles();
-        roles.remove(role);
+        user.getRoles().clear();
         user.setRoles(roles);
         return userRepository.save(user);
     }

@@ -39,11 +39,6 @@
     </div>
     <div style="margin-top: 1ch">
         <td th:if="${isAdmin}">
-            <a class="btn btn-primary" th:href="@{'/edit/film/'}">Edit</a>
-        </td>
-    </div>
-    <div style="margin-top: 1ch">
-        <td th:if="${isAdmin}">
             <a class="btn btn-primary" th:href="@{'/add/seance/' + ${film.id}}">Add seances</a>
         </td>
     </div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Film Info</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navbar :: navigation(Users)}"/>
+    <h1 th:text="${user.name}" style="padding-top: 20px"></h1>
+    <div style="margin-top: 1ch">
+        <span th:text="${user.roles}"></span>
+    </div>
+    <div class="form-check" style="margin-top: 1ch">
+        <input class="form-check-input" type="checkbox" th:name="isUser" id="userCheck">
+        <label class="form-check-label" for="userCheck">User</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" th:name="isAdmin" id="adminCheck">
+        <label class="form-check-label" for="adminCheck">Admin</label>
+    </div>
+    <div style="margin-top: 1ch">
+        <td>
+            <a class="btn btn-primary" th:href="@{'/users/' + ${user.id} + '/roles'}">Update</a>
+        </td>
+    </div>
+</div>
+</body>
+</html>

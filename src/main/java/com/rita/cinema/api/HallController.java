@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class HallController {
@@ -22,11 +21,6 @@ public class HallController {
         List<Hall> halls = hallService.findAll();
         model.addAttribute("halls", halls);
         return "halls";
-    }
-
-    @GetMapping("hall/{id}")
-    public Hall byId(@PathVariable Long id, @AuthenticationPrincipal User user, Map<String, Object> model) {
-        return hallService.findById(id);
     }
 
     @GetMapping("add/hall")
@@ -45,9 +39,11 @@ public class HallController {
         return "redirect:/halls";
     }
 
-    @DeleteMapping("delete/hall/{id}")
-    public void delete(@PathVariable Long id){
-        hallService.deleteById(id);
+    @GetMapping("delete/hall/{hall}")
+    public String delete(@PathVariable Hall hall){
+        if(hall.getSeances().isEmpty())
+            hallService.deleteById(hall.getId());
+        return "redirect:/halls";
     }
 
     private void checkUser(@AuthenticationPrincipal User user, Model model) {
