@@ -23,6 +23,8 @@
         <thead class="thead-dark">
         <tr>
             <td scope="col">Name</td>
+            <td scope="col">Director</td>
+            <td scope="col">Rating</td>
             <td scope="col">Genre</td>
             <td scope="col">Details</td>
         </tr>
@@ -30,6 +32,8 @@
         <tbody>
         <tr th:each="film : ${films}">
             <td th:text="${film.name}"/>
+            <td th:text="${film.director}"/>
+            <td th:text="${film.rating}"/>
             <td th:text="${film.genre}"/>
             <td>
                 <a class="btn btn-primary" th:href="@{'/film/' + ${film.id}}">Details</a>

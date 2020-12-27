@@ -13,7 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class SeanceController {
@@ -64,18 +63,27 @@ public class SeanceController {
                       @RequestParam(value = "price") double price,
                       @RequestParam(value = "date") String date,
                       @RequestParam(value = "is3d", required = false) boolean is3d,
-                      @RequestParam(value = "hall") Hall hall) throws ParseException {
+                      @RequestParam(value = "hall") Hall hall,
+                      Model model) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm a");
-        Date parsed = formatter.parse(date);
+        Date parsed = null;
+        try {
+            parsed = formatter.parse(date);
+        } catch (ParseException e) {
+            model.addAttribute("message", "Bad date");
+            model.addAttribute("isAuthenticated", true);
+            model.addAttribute("isAdmin", true);
+            model.addAttribute("halls", hallService.findAll());
+            model.addAttribute("film", film);
+            return "add-seance";
+        }
         Seance seance = new Seance(price, parsed, is3d, film, hall);
         seanceService.add(seance);
         return "redirect:/seances";
     }
 
     @GetMapping("delete/seance/{id}")
-    public String delete(@PathVariable Long id,
-                       @AuthenticationPrincipal User user,
-                       Map<String, Object> model){
+    public String delete(@PathVariable Long id){
         seanceService.deleteById(id);
         return "redirect:/seances";
     }
@@ -83,9 +91,7 @@ public class SeanceController {
     @PutMapping("edit/seance/{id}")
     public String updatePrice(@PathVariable Long id,
                             @RequestParam(required = false) double newPrice,
-                            @RequestParam(required = false) Date newDate,
-                            @AuthenticationPrincipal User user,
-                            Map<String, Object> model){
+                            @RequestParam(required = false) Date newDate){
         seanceService.updatePrice(id, newPrice);
         seanceService.updateDate(id, newDate);
         return "redirect:/seances";

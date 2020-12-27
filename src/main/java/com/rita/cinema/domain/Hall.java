@@ -35,7 +35,6 @@ public final class Hall {
 
     @JsonBackReference
     @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Seance> seances;
 
     public Hall(@NotBlank(message = "Name can't be empty") String name,

@@ -33,7 +33,7 @@
             <td th:text="${hall.linesNum}"/>
             <td th:text="${hall.seatsNum}"/>
             <td th:text="${hall.hallType}"/>
-            <td th:if="${isAdmin}">
+            <td th:if="${isAdmin && hall.getSeances().isEmpty()}">
                 <a class="btn btn-danger" th:href="@{'/delete/hall/' + ${hall.id}}">Delete</a>
             </td>
         </tr>

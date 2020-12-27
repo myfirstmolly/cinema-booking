@@ -36,7 +36,6 @@ public final class Film {
 
     @JsonBackReference
     @OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Seance> seances;
 
     public Film(String name, String director, Date releaseDate, String genre, String summary,

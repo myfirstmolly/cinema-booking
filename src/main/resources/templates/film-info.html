@@ -45,6 +45,7 @@
     <div style="margin-top: 1ch">
         <td th:if="${isAdmin}">
             <a class="btn btn-danger" th:href="@{'/delete/film/' + ${film.id}}">Delete</a>
+            <p th:if="${message != null}">This film cannot be deleted, because it has seances.</p>
         </td>
     </div>
 </div>

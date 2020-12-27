@@ -19,7 +19,7 @@
             <td scope="col">Name</td>
             <td scope="col">Email</td>
             <td scope="col">Birth Date</td>
-            <td scope="col">Edit authorities</td>
+            <td scope="col">Authorities</td>
         </tr>
         </thead>
         <tbody>
@@ -28,9 +28,7 @@
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.birthDate}"></td>
-            <td>
-                <a class="btn btn-primary" th:href="@{'/users/' + ${user.id}}">Change</a>
-            </td>
+            <td th:text="${user.authorities}"></td>
         </tr>
         </tbody>
     </table>

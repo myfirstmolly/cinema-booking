@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/edit/**").hasAuthority("ADMIN")
                 .antMatchers("/delete/**").hasAuthority("ADMIN")
                 .antMatchers("/add/**").hasAuthority("ADMIN")
+                .antMatchers("/users/**").hasAuthority("ADMIN")
                 .antMatchers("/ticket/**").authenticated()
                 .antMatchers("/tickets/**").authenticated()
                 .anyRequest().permitAll()

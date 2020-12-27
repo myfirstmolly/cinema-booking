@@ -35,13 +35,22 @@ public class AuthController {
                            @RequestParam(value = "password") String password,
                            @RequestParam(value = "name") String name,
                            @RequestParam(value = "email") String email,
-                           @RequestParam(value = "birthDate") String birthDate) throws ParseException {
+                           @RequestParam(value = "birthDate") String birthDate,
+                           Model model) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        Date parsed = formatter.parse(birthDate);
-        if(userService.isUnique(username)) {
+        Date parsed = null;
+        try {
+            parsed = formatter.parse(birthDate);
+        } catch (ParseException e) {
+            model.addAttribute("dateMessage", "Please, enter correct birth date");
+        }
+        if(userService.isUnique(username) && parsed != null) {
             userService.add(username, password, name, email, parsed);
             return "redirect:/login";
         }
-        return "redirect:/register";
+        model.addAttribute("isAuthenticated", false);
+        model.addAttribute("isAdmin", false);
+        model.addAttribute("usernameMessage", "Username must be unique");
+        return "registration";
     }
 }

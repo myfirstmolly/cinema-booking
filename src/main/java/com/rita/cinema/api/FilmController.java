@@ -22,32 +22,16 @@ public class FilmController {
 
     @GetMapping("films")
     public String all(Model model, @AuthenticationPrincipal User user) {
-        boolean isAuthenticated = false;
-        boolean isAdmin = false;
-        if(user != null) {
-            isAuthenticated = true;
-            if (user.isAdmin())
-                isAdmin = true;
-        }
+        checkUser(user, model);
         List<Film> films = filmService.findAll();
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("films", films);
         return "films";
     }
 
     @GetMapping("film/{id}")
     public String byId(@PathVariable Long id, Model model, @AuthenticationPrincipal User user) {
-        boolean isAuthenticated = false;
-        boolean isAdmin = false;
-        if(user != null) {
-            isAuthenticated = true;
-            if (user.isAdmin())
-                isAdmin = true;
-        }
+        checkUser(user, model);
         Film film = filmService.findById(id);
-        model.addAttribute("isAuthenticated", isAuthenticated);
-        model.addAttribute("isAdmin", isAdmin);
         model.addAttribute("film", film);
         return "film-info";
     }
@@ -68,23 +52,50 @@ public class FilmController {
 
     @PostMapping("add/film")
     public String add(@RequestParam(value = "name") String name,
-                    @RequestParam(value = "director") String director,
-                    @RequestParam(value = "releaseDate") String releaseDate,
-                    @RequestParam(value = "genre") String genre,
-                    @RequestParam(value = "summary", required = false) String summary,
-                    @RequestParam(value = "rating", required = false) Rating rating
-    ) throws ParseException {
+                      @RequestParam(value = "director") String director,
+                      @RequestParam(value = "releaseDate") String releaseDate,
+                      @RequestParam(value = "genre") String genre,
+                      @RequestParam(value = "summary", required = false) String summary,
+                      @RequestParam(value = "rating", required = false) Rating rating,
+                      Model model
+    ) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        Date parsed = formatter.parse(releaseDate);
+        Date parsed = null;
+        try {
+            parsed = formatter.parse(releaseDate);
+        } catch (ParseException e) {
+            model.addAttribute("message", "Wrong date format");
+            model.addAttribute("isAuthenticated", true);
+            model.addAttribute("isAdmin", true);
+            return "add-film";
+        }
         filmService.add(name, director, parsed, genre, summary, rating);
         return "redirect:/films";
     }
 
     @GetMapping("delete/film/{film}")
     public String delete(@PathVariable Film film,
-                       @AuthenticationPrincipal User user){
-        if(film.getSeances().isEmpty())
+                         Model model) {
+        model.addAttribute("isAuthenticated", true);
+        model.addAttribute("isAdmin", true);
+        if (film.getSeances().isEmpty()) {
             filmService.deleteById(film.getId());
-        return "redirect:/films";
+            return "redirect:/films";
+        }
+        model.addAttribute("message", "Cannot be deleted");
+        model.addAttribute("film", film);
+        return "film-info";
+    }
+
+    private void checkUser(@AuthenticationPrincipal User user, Model model) {
+        boolean isAuthenticated = false;
+        boolean isAdmin = false;
+        if(user != null) {
+            isAuthenticated = true;
+            if (user.isAdmin())
+                isAdmin = true;
+        }
+        model.addAttribute("isAuthenticated", isAuthenticated);
+        model.addAttribute("isAdmin", isAdmin);
     }
 }
