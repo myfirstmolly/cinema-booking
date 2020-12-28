@@ -34,8 +34,10 @@ public class HallController {
                     @RequestParam(value = "linesNum") int linesNum,
                     @RequestParam(value = "seatsNum") int seatsNum,
                     @RequestParam(value = "hallType") HallType hallType) {
-        Hall hall = new Hall(name, linesNum, seatsNum, hallType);
-        hallService.add(hall);
+        if(linesNum > 0 && seatsNum > 0) {
+            Hall hall = new Hall(name, linesNum, seatsNum, hallType);
+            hallService.add(hall);
+        }
         return "redirect:/halls";
     }
 

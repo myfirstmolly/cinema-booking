@@ -14,9 +14,6 @@ public class HallServiceImpl implements HallService {
     @Autowired
     private HallRepository hallRepository;
 
-    @Autowired
-    private SeanceService seanceService;
-
     @Override
     public Hall add(Hall hall) {
         return hallRepository.save(hall);
